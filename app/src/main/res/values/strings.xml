@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Learning Dashboard</string>
+    <string name="emailCanNotBeBlank">The email can not be blank</string>
+    <string name="emailNotValid">This is not a valid email</string>
+    <string name="passAtleast8Char">Password should at least contain 8 characters</string>
+    <string name="passAtleast1Letter1Digit">Password should at least contain 1 letter and 1 digit</string>
 </resources>
