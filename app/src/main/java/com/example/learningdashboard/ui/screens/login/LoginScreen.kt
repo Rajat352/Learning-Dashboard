@@ -38,12 +38,8 @@ fun LoginScreen(
     val viewModel: LoginViewModel = viewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
-            when (event) {
-                is LoginUiEvent.Success -> onLoginSuccess()
-            }
-        }
+    LaunchedEffect(state.ui.isLoggedIn) {
+        if (state.ui.isLoggedIn) onLoginSuccess()
     }
 
     LoginScreen(
@@ -75,6 +71,7 @@ fun LoginScreen(
 
         OutlinedTextField(
             value = state.form.email,
+            enabled = !state.ui.isLoading,
             onValueChange = { onAction(LoginScreenAction.EmailChanged(it)) },
             label = { Text("Email") },
             isError = state.form.emailError != null,
@@ -95,6 +92,7 @@ fun LoginScreen(
 
         OutlinedTextField(
             value = state.form.password,
+            enabled = !state.ui.isLoading,
             onValueChange = { onAction(LoginScreenAction.PasswordChanged(it)) },
             label = { Text("Password") },
             isError = state.form.passwordError != null,

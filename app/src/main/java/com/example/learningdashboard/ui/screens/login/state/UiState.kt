@@ -5,5 +5,6 @@ import com.example.learningdashboard.domain.model.UiText
 data class UiState(
     val isPasswordVisible: Boolean = false,
     val isLoading: Boolean = false,
+    val isLoggedIn: Boolean = false,
     val error: UiText? = null
 )

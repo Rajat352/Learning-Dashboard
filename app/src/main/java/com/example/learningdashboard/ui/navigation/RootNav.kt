@@ -9,6 +9,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.example.learningdashboard.ui.screens.courses.CoursesScreen
 import com.example.learningdashboard.ui.screens.login.LoginScreen
 
 @Composable
@@ -39,7 +40,7 @@ fun RootNav(
                     )
                 }
                 entry<Route.TopLevel.Courses> {
-
+                    CoursesScreen()
                 }
             }
         )
