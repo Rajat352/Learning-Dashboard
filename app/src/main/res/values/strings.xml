@@ -21,4 +21,17 @@
         <item quantity="one">%d lesson</item>
         <item quantity="other">%d lessons</item>
     </plurals>
+    <string name="back">Back</string>
+    <string name="lessons_completed_count">%1$d of %2$d lessons completed</string>
+    <string name="lessons_empty">No lessons available.</string>
+    <string name="lessons_unavailable">Lessons have not been downloaded. Please try again.</string>
+    <string name="lessons_offline">You are offline. Any saved lessons are still available.</string>
+    <string name="lessons_service_unavailable">Unable to refresh lessons. Please try again.</string>
+    <string name="lessons_persistence_failure">Unable to load or save lessons. Please try again.</string>
+    <string name="course_not_found">This course is no longer available.</string>
+    <string name="lesson_completion_failure">Unable to complete this lesson. Please try again.</string>
+    <string name="lesson_completed">Completed</string>
+    <string name="lesson_pending">Pending</string>
+    <string name="lesson_saving">Saving…</string>
+    <string name="mark_complete">Mark complete</string>
 </resources>

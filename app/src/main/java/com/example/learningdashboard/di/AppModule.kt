@@ -6,10 +6,12 @@ import com.example.learningdashboard.data.AppDatabase
 import com.example.learningdashboard.data.remote.AndroidConnectivityChecker
 import com.example.learningdashboard.data.remote.ConnectivityChecker
 import com.example.learningdashboard.data.remote.MockApiTransport
-import com.example.learningdashboard.data.remote.api.CoursesApi
-import com.example.learningdashboard.data.remote.api.FakeCoursesApiImpl
 import com.example.learningdashboard.data.remote.api.AuthApi
+import com.example.learningdashboard.data.remote.api.CoursesApi
 import com.example.learningdashboard.data.remote.api.FakeAuthApiImpl
+import com.example.learningdashboard.data.remote.api.FakeCoursesApiImpl
+import com.example.learningdashboard.data.remote.api.FakeLessonsApiImpl
+import com.example.learningdashboard.data.remote.api.LessonsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,4 +49,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideCoursesApi(transport: MockApiTransport): CoursesApi = FakeCoursesApiImpl(transport)
+
+    @Provides
+    @Singleton
+    fun provideLessonsApi(transport: MockApiTransport): LessonsApi = FakeLessonsApiImpl(transport)
 }

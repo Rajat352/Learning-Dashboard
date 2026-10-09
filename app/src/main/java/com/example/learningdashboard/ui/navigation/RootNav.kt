@@ -9,6 +9,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.example.learningdashboard.ui.screens.coursedetails.CourseDetailsScreen
 import com.example.learningdashboard.ui.screens.courses.CoursesScreen
 import com.example.learningdashboard.ui.screens.login.LoginScreen
 
@@ -41,8 +42,18 @@ fun RootNav(
                 }
                 entry<Route.TopLevel.Courses> {
                     CoursesScreen(
-                        onContinue = {
-
+                        onContinue = { courseId ->
+                            if (backStack.lastOrNull() == Route.TopLevel.Courses) {
+                                backStack.add(Route.CourseDetails(courseId))
+                            }
+                        }
+                    )
+                }
+                entry<Route.CourseDetails> { route ->
+                    CourseDetailsScreen(
+                        courseId = route.courseId,
+                        onBack = {
+                            if (backStack.lastOrNull() == route) backStack.removeLastOrNull()
                         }
                     )
                 }

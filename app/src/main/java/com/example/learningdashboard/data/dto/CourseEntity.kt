@@ -9,5 +9,6 @@ data class CourseEntity(
     val title: String,
     val instructor: String,
     val lessonCount: Int,
-    val completedLessonCount: Int
+    val completedLessonCount: Int,
+    val isLessonsCached: Boolean = false
 )

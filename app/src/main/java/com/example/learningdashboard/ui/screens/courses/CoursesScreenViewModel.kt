@@ -17,7 +17,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -72,12 +71,8 @@ class CoursesScreenViewModel @Inject constructor(
         refreshJob = viewModelScope.launch {
             try {
                 val result = coursesRepository.refreshCourses()
-                val courses = if (result == CoursesResult.Success) {
-                    coursesRepository.courses.first().map { it.toUiState() }
-                } else null
                 _uiState.update {
                     it.copy(
-                        courses = courses ?: it.courses,
                         error = when (result) {
                             CoursesResult.Success -> null
                             CoursesResult.Offline -> UiText.StringResource(R.string.courses_offline)

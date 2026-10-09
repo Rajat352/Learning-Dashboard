@@ -14,5 +14,6 @@ data class LessonsEntity(
     @PrimaryKey val id: Long,
     val courseId: Long,
     val title: String,
-    val completed: Boolean
+    val completed: Boolean,
+    val position: Int
 )
