@@ -29,7 +29,7 @@ class AuthRepositoryImpl(
             .distinctUntilChanged()
 
     override suspend fun logout() {
-        sessionUserDao.clearSessionUser()
+        sessionUserDao.clearUserDataAndSession()
     }
 
     override suspend fun login(

@@ -8,12 +8,14 @@ import com.example.learningdashboard.domain.model.Course
 import com.example.learningdashboard.domain.model.CoursesResult
 import com.example.learningdashboard.domain.model.UiText
 import com.example.learningdashboard.domain.repository.CoursesRepository
+import com.example.learningdashboard.domain.repository.AuthRepository
 import com.example.learningdashboard.domain.usecase.CalculateCourseProgressUseCase
 import com.example.learningdashboard.ui.screens.courses.action.CoursesScreenAction
 import com.example.learningdashboard.ui.screens.courses.state.CourseUiState
 import com.example.learningdashboard.ui.screens.courses.state.CoursesScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -25,6 +27,7 @@ import kotlin.coroutines.cancellation.CancellationException
 @HiltViewModel
 class CoursesScreenViewModel @Inject constructor(
     private val coursesRepository: CoursesRepository,
+    private val authRepository: AuthRepository,
     private val calculateCourseProgressUseCase: CalculateCourseProgressUseCase
 ): ViewModel() {
 
@@ -40,6 +43,7 @@ class CoursesScreenViewModel @Inject constructor(
     fun onAction(action: CoursesScreenAction) {
         when (action) {
             CoursesScreenAction.Refresh -> refreshCourses()
+            CoursesScreenAction.Logout -> logout()
         }
     }
 
@@ -65,7 +69,7 @@ class CoursesScreenViewModel @Inject constructor(
     }
 
     private fun refreshCourses() {
-        if (refreshJob?.isActive == true) return
+        if (_uiState.value.isLoggingOut || refreshJob?.isActive == true) return
         _uiState.update { it.copy(isLoading = true, error = null) }
 
         refreshJob = viewModelScope.launch {
@@ -90,6 +94,24 @@ class CoursesScreenViewModel @Inject constructor(
                 }
             } finally {
                 _uiState.update { it.copy(isLoading = false) }
+            }
+        }
+    }
+
+    private fun logout() {
+        if (_uiState.value.isLoggingOut) return
+        _uiState.update { it.copy(isLoggingOut = true, error = null) }
+        viewModelScope.launch {
+            try {
+                refreshJob?.cancelAndJoin()
+                authRepository.logout()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to log out", e)
+                _uiState.update {
+                    it.copy(isLoggingOut = false, error = UiText.StringResource(R.string.logout_failure))
+                }
             }
         }
     }

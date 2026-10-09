@@ -8,6 +8,7 @@ data class CoursesScreenState(
     val courses: List<CourseUiState> = emptyList(),
     val isLoading: Boolean = true,
     val isCacheLoaded: Boolean = false,
+    val isLoggingOut: Boolean = false,
     val error: UiText? = null
 )
 

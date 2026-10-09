@@ -62,13 +62,22 @@ fun CoursesScreen(
         ) {
             Text(
                 text = stringResource(R.string.courses_title),
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.weight(1f)
             )
-            TextButton(
-                onClick = { onAction(CoursesScreenAction.Refresh) },
-                enabled = !state.isLoading
-            ) {
-                Text(stringResource(R.string.refresh))
+            Row {
+                TextButton(
+                    onClick = { onAction(CoursesScreenAction.Refresh) },
+                    enabled = !state.isLoading && !state.isLoggingOut
+                ) {
+                    Text(stringResource(R.string.refresh))
+                }
+                TextButton(
+                    onClick = { onAction(CoursesScreenAction.Logout) },
+                    enabled = !state.isLoggingOut
+                ) {
+                    Text(stringResource(R.string.logout))
+                }
             }
         }
 
@@ -91,7 +100,11 @@ fun CoursesScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(state.courses, key = { it.id }) { course ->
-                        CourseCard(course = course, onContinue = { onContinue(course.id) })
+                        CourseCard(
+                            course = course,
+                            onContinue = { onContinue(course.id) },
+                            enabled = !state.isLoggingOut
+                        )
                     }
                 }
             }
@@ -113,7 +126,10 @@ fun CoursesScreen(
                             MaterialTheme.colorScheme.error
                         } else MaterialTheme.colorScheme.onSurface
                     )
-                    TextButton(onClick = { onAction(CoursesScreenAction.Refresh) }) {
+                    TextButton(
+                        onClick = { onAction(CoursesScreenAction.Refresh) },
+                        enabled = !state.isLoggingOut
+                    ) {
                         Text(stringResource(if (state.error != null) R.string.retry else R.string.refresh))
                     }
                 }
@@ -126,6 +142,7 @@ fun CoursesScreen(
 private fun CourseCard(
     course: CourseUiState,
     onContinue: () -> Unit,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
@@ -157,7 +174,7 @@ private fun CourseCard(
                 progress = { course.progress / 100f },
                 modifier = Modifier.fillMaxWidth()
             )
-            Button(onClick = onContinue, modifier = Modifier.align(Alignment.End)) {
+            Button(onClick = onContinue, enabled = enabled, modifier = Modifier.align(Alignment.End)) {
                 Text(stringResource(R.string.continue_course))
             }
         }

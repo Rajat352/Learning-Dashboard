@@ -20,6 +20,15 @@ interface SessionUserDao {
     @Query("DELETE FROM session_user")
     suspend fun clearSessionUser()
 
+    @Query("DELETE FROM courses")
+    suspend fun clearUserCourses()
+
+    @Transaction
+    suspend fun clearUserDataAndSession() {
+        clearUserCourses()
+        clearSessionUser()
+    }
+
     @Transaction
     suspend fun replaceSessionUser(user: SessionUserEntity) {
         clearSessionUser()
