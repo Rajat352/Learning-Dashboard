@@ -40,7 +40,11 @@ fun RootNav(
                     )
                 }
                 entry<Route.TopLevel.Courses> {
-                    CoursesScreen()
+                    CoursesScreen(
+                        onContinue = {
+
+                        }
+                    )
                 }
             }
         )

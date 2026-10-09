@@ -7,5 +7,7 @@ import androidx.room3.PrimaryKey
 data class CourseEntity(
     @PrimaryKey val id: Long,
     val title: String,
-    val instructor: String
+    val instructor: String,
+    val lessonCount: Int,
+    val completedLessonCount: Int
 )
